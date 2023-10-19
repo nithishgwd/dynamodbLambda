@@ -1,0 +1,64 @@
+// Remove or replace the following lines if these types are not available in your SDK version
+	case *types.AccessDeniedException:
+		return fmt.Errorf("Access denied: %s", *e.Message)
+	case *types.ThrottlingException:
+		return fmt.Errorf("Request throttled: %s", *e.Message)
+
+    case *types.ValidationException:
+		return fmt.Errorf("Validation error: %s", *e.Message)
+
+- When working with DynamoDB and creating tables in a production environment, you may encounter several types of errors. 
+    Handling them appropriately can prevent unexpected behavior and improve the resilience of your system. Here are some common errors you might encounter:
+
+        ResourceInUseException: This occurs if the table name is already in use.
+
+        LimitExceededException: This can happen if you've reached a limit for your account, for example, 
+                                the maximum number of tables you're allowed to create.
+
+        InternalServerError: Represents a general server-side error.
+
+        ProvisionedThroughputExceededException: Occurs if you're trying to allocate more read/write capacity than allowed.
+
+        ResourceNotFoundException: Although unlikely during table creation, this error suggests the specified resource doesn't exist.
+
+        ValidationException: Represents issues with input validation, such as missing mandatory parameters.
+
+        ConditionalCheckFailedException: Generally used for conditional writes, but worth keeping in mind for more advanced use-cases.
+
+        AccessDeniedException: Indicates that the AWS credentials provided do not have the necessary permissions to perform the action.
+
+        ThrottlingException: The request got throttled. For example, too many requests were made in a short amount of time.
+
+Use and Utility:
+    Table Creation: It programmatically creates a DynamoDB table with specified primary keys (PK and SK).
+
+    AWS Configuration: The program uses AWS SDK v2, which requires a default configuration.
+                        This configuration is generally derived from AWS credentials stored in the environment or AWS credentials file.
+
+    Error Handling: Comprehensive error handling is included to cover many common issues that might arise when working with DynamoDB,
+                     such as table already existing, exceeded provisioned throughput, invalid AWS credentials, etc.
+
+Where can it be used:
+    Infrastructure as Code (IAC): The script can be part of an IAC toolkit where the infrastructure provisioning 
+    (including database tables) is done through code instead of manual setups. This is particularly useful in DevOps and CI/CD pipelines.
+
+    Local Development: Developers can use this script when setting up their local environment or when testing against a development 
+    AWS account.
+
+    Automation: If you need to set up and tear down environments regularly (e.g., for load testing, staging, or QA environments), 
+    such a script can be beneficial.
+
+Who can use:
+    Backend Developers: Any developer who is building an application that needs to interface with DynamoDB could utilize this script to 
+    create the required tables.
+
+    DevOps Engineers: Engineers who handle deployment and infrastructure management can incorporate this script into their
+     deployment pipeline.
+
+    QA Engineers: If there's a need to spin up isolated environments for testing, a QA engineer might find this script useful.
+
+    Data Engineers: Those working on projects where they need to set up data storage on DynamoDB for processing or analytics tasks.
+
+    Remember, while the program aids in creating tables, it is essential to understand DynamoDB and AWS best practices. Incorrect 
+    configurations or misuse can lead to unnecessary AWS costs or poorly performing tables. Always ensure that scripts like these 
+    are used judiciously and with a clear understanding of their implications.
